@@ -5,30 +5,24 @@
  */
 
 	/*
-	*定数設定を読み込み
-	*
-	*/
+	 *定数設定を読み込み
+	 */
 	require_once 'defines.php';
 
-        /*
-        *設定
-	*/
-        require_once 'config.php';
-	
 	/*
-	*デバック関数
-	*デバックしたい配列を入れる
+	 *設定
+	 */
+	require_once 'config.php';
+
+	/*
+	 *デバック関数
+	 *デバックしたい配列を入れる
 	*/
-	function debug(&$var, $title = '')
-	{
+	function debug(&$var, $title = ''){
 		echo _preprint_r($var, $title);
 	}
-	function &_preprint_r(&$var, $title = '')
-	{
-		/*if (!defined('UNOH_DEV') && UNOH_DEV) {
-			return '';
-		}*/
 
+	function &_preprint_r(&$var, $title = ''){
 		$html = '<table>';
 		if ($title) {
 			$html .= "<tr><th align=\"left\">$title:</th></tr>";
@@ -39,5 +33,5 @@
 
 		return $html;
 	}
-	
+
 ?>
