@@ -144,7 +144,16 @@ class View extends Smarty{
 			$this->display('default.tpl');
 		}
 	}
-	
+
+	/*
+	*将来的に独自のテンプレエンジンを入れる
+	*/
+	function my_display($tpl, $param) {
+		$html = file_get_contents($tpl);
+		$html = preg_replace('/{(.+?)}/e', '$param[$1]', $html);
+		echo $html;
+	}
+
 }
 
 $view = new View();

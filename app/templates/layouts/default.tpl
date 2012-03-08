@@ -9,9 +9,10 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
+<link type="text/css" href="/css/main.css" rel="stylesheet">
 <script type="text/javascript" charset="utf-8"  src="/js/jquery.js"></script>
 
-<title>IkaTyan</title>
+<title>Myfream</title>
 
 </head>
 <body>
