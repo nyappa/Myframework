@@ -4,13 +4,16 @@ class Sample extends View
 
 	function index(){
 		//ﾍﾟｰｼﾞ描写処理
-		#$this->assign('log_list',$log_list);
+		
+		$sample_text = 'A sample is started.';
+
+		$this->assign('sample_text',$sample_text);
 		$this->create();
 	}
 
 	function lists(){
 		//ﾍﾟｰｼﾞ描写テンプレート
-		$this->create('none');
+		$this->create();
 	}
 
 }

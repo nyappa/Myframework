@@ -1,5 +1,5 @@
 <h2>Welcome to Myfream!</h2> 
-<p>Sample started. </p>
+<p>{*$sample_text*}</p>
 
 <div>
 There is only a controller in this framework now.<br> 
@@ -10,3 +10,5 @@ and create the class of the name of controller_hogeho in it.<br>
 The template file should create a template folder to the folder for every application, <br>
 and should create it there. <br>
 </div>
+
+<a href='https://github.com/nyappa/Myframework' target="_blank">A related site</a>

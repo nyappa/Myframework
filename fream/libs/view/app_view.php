@@ -58,7 +58,12 @@ class View extends Smarty{
 		unset($params[$file_no]);
 		
 		$url = APP.'/application/'.$class_name.'/controller_'.$class_name.'.php';
-		
+
+		if(!file_exists(APP.'/application/'.$class_name.'/controller_'.$class_name.'.php')){
+			echo 'The controller of myfream does not exist.';
+			die;
+		}
+
 		$params = array(
 			'url'         => $url,
 			'class_name'  => $class_name,
@@ -123,6 +128,11 @@ class View extends Smarty{
                     $this->compile_dir  = TEMPLATE_C;
 		    $this->display($template_name.'.tpl');
 		    die;
+		}
+
+		if(!file_exists($template_path.$template_name.'.tpl')){
+			echo 'A template does not exist. ';
+			die;
 		}
 
 		//contentﾃﾝﾌﾟﾚｰﾄﾌｫﾙﾀﾞを設定

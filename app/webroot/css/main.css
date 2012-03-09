@@ -27,3 +27,11 @@ input:hover {
     background: none repeat scroll 0 0 #00AC65;
     color:#001A0F;
 }
+
+a {
+    color:#00AC65;
+}
+
+#menu {
+    margin:10px;
+}
