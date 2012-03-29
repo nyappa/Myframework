@@ -23,9 +23,16 @@
 	//ﾃﾝﾌﾟﾚｰﾄの場所
 	define('TEMPLATE',APP.'/templates/');
 	define('TEMPLATE_C',APP.'/templates/templates_c/');
+
+	//パス設定定義　読み込み
+	require_once(APP.'/route/root.php');
+	$json_data = json_decode (ROOT_PATHS);
+	echo $json_data->name.'<br>';
+	echo $json_data->hoge->moge;
 	
 	//共通処理設定読み込み
 	require_once(LIB.'/function.php');
+        debug($json_data);
 
 	//viewｸﾗｽ読み込み
 	require_once(VIEW);
