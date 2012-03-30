@@ -22,6 +22,28 @@ class Controller {
 		$params = explode("/", $path);
 		unset($params[0]);
 
+		$path = join('/',$params);
+                print $path.'<br>';
+
+	        $json_data = json_decode (ROOT_PATHS);
+
+		//ＵＲＬマッチとパラメーター取り出しはＯＫ
+		//類似パスを取得する可能性。。
+
+		$set_path = 'Sample/([0-9]+)/lists/([0-9]+)/edit';
+
+		if( ereg('^'.$set_path.'$', $path, $array) ){
+			unset( $array[0] );
+			debug( $array );
+		}
+		
+		$serialize = serialize( $params_list );
+                debug( unserialize( $serialize ) );
+
+		debug($params_list);
+
+		
+
 		$file_no = count($params);
 
 		//root 設定がされている場合の処理
@@ -58,5 +80,7 @@ class Controller {
 
 	}
 }
+
+$controller = new Controller();
 
 ?>

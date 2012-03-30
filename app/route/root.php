@@ -4,9 +4,9 @@
  */
 
 define('ROOT_PATHS','{
-	"name": "John Smith", 
-	"age": 33,
-	"hoge": { "moge" : "neko", "moge2" : "neko" }
+	"/sample/lists/": { 
+		"John Smith": "hoge"
+	}	
 }');
 /*
 define('ROOT_PATHS', array(

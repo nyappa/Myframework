@@ -14,6 +14,7 @@
 	//各種基本ﾌｧｲﾙへのﾊﾟｽ
 	define('LIB',FREAM.'/libs');
 	define('VIEW',LIB.'/view/app_view.php');
+	define('CONTROLLER',LIB.'/controller/app_controller.php');
 	define('MODEL',LIB.'/model/app_model.php');
 	define('APP',MYFREAM.'/app');
 	define('CONFIG',APP.'/configs');
@@ -34,8 +35,10 @@
 	require_once(LIB.'/function.php');
         debug($json_data);
 
-	//viewｸﾗｽ読み込み
+	//各種ｸﾗｽ読み込み
 	require_once(VIEW);
+	require_once(CONTROLLER);
+
 
 	//mod_rewite用　場所は跡で考える 頓挫中(js 以外ならOK)
 	if(MOD_REWEIT_SET == 'on'){
@@ -49,9 +52,12 @@
 	}else{
            $path = $_SERVER['ORIG_PATH_INFO'];
 	}
+
+	//role を使った形
+	echo $controller->create_url( $path );
 	
 	//url構築処理 urlが不正な場合はｴﾗｰ処理
-	$params = $view->create_url($path);
+	$params = $view->create_url( $path );
 
 	include($params['url']);//コントローラーファイル読み込み
 	$instance = new $params['class_name']();  //クラスのインスタンスを生成
