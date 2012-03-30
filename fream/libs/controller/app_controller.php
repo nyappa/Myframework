@@ -23,24 +23,70 @@ class Controller {
 		unset($params[0]);
 
 		$path = join('/',$params);
-                print $path.'<br>';
 
 	        $json_data = json_decode (ROOT_PATHS);
 
 		//ＵＲＬマッチとパラメーター取り出しはＯＫ
 		//類似パスを取得する可能性。。
 
-		$set_path = 'Sample/([0-9]+)/lists/([0-9]+)/edit';
+		$set_path = array(
 
-		if( ereg('^'.$set_path.'$', $path, $array) ){
-			unset( $array[0] );
-			debug( $array );
-		}
+			'Sample/([a-z]+)/lists/([0-9]+)/edit' => array(
+				'params' => array( 1 => 'id', 2 => 'id2'),
+				'controller' => '/Sample/controller_Sample.php',
+			),
+
+                        'Sample/read/lists/123/edit' => array(
+				'controller' => '/Sample/controller_Sample.php',
+			)
+
+		);
+
 		
-		$serialize = serialize( $params_list );
-                debug( unserialize( $serialize ) );
+		foreach( $set_path as $key => $val ){
 
-		debug($params_list);
+			if( ereg('^'.$key.'$', $path, $array) ){
+				$serces[] = $key; 
+			}
+		}
+
+		if( count( $serces ) > 1 ){
+
+			foreach( $serces as $serces_key => $serces_val ){
+				if($serces_val == $path){
+					$use_path = $serces_val;
+				}else{
+					unset( $serces[ $serces_key ] );
+				}
+			}
+
+		}else{
+                    $use_path = $serces[0];
+		}
+
+		if( !$use_path ){
+                   echo 'error';
+		}
+
+		if( ereg('^'.$use_path.'$', $path, $array) ){
+
+			unset( $array[0] );
+
+			foreach ( $array as $param_key => $param_val ){
+				$req_params[ $set_path[$use_path]['params'][$param_key] ] = $param_val;
+			}
+
+			$controller_path = APPLICATION.$set_path[$use_path]['controller'];
+		}
+
+echo $controller_path;
+debug($req_params);
+
+
+		#$serialize = serialize( $params_list );
+                #debug( unserialize( $serialize ) );
+
+		#debug($params_list);
 
 		
 
