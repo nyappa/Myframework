@@ -1,5 +1,6 @@
 <h2>Welcome to Myfream!</h2> 
 <p>{*$sample_text*}</p>
+<p>{*$validation*}</p>
 
 <div>
 There is only a controller in this framework now.<br> 

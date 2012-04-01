@@ -54,12 +54,20 @@
 	}
 
 	//role を使った形
-	echo $controller->create_url( $path );
-	
+	$params = $c->create_url( $path );
 	//url構築処理 urlが不正な場合はｴﾗｰ処理
-	$params = $view->create_url( $path );
+	#$params = $view->create_url( $path );
 
-	include($params['url']);//コントローラーファイル読み込み
-	$instance = new $params['class_name']();  //クラスのインスタンスを生成
-	$instance->$params['method_name']();    //クラスのメソッドを呼ぶ
+	#include($params['url']);//コントローラーファイル読み込み
+	#$instance = new $params['class_name']();  //クラスのインスタンスを生成
+	#$instance->$params['method_name']();    //クラスのメソッドを呼ぶ
+
+	include($params['path']);
+	$instance = new $params['class']();
+
+	foreach( $params['filter'] as $key => $val ){
+	    $instance->$val();
+	}
+
+	$instance->$params['method']();
 ?>
