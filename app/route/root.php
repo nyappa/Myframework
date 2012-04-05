@@ -1,26 +1,32 @@
 <?php
-/*
- * パス定義：テスト中
- */
+class ROUTE_CONFIG {
 
-define('ROOT_PATHS','{
-	"/sample/lists/": { 
-		"John Smith": "hoge"
-	}	
-}');
-/*
-define('ROOT_PATHS', array(
-	
-	'/sample/' => array(
-		'controller' => '/sample/controller_sample',
-		'action'     => 'index',
-		'filter'     => array('validate_info'),
+	public $set_path = array(
+		
+		'Sample/([a-z]+)/lists/([0-9]+)' => array(
 
-		'/list' => array(
-			'action' => 'list'
-			'filter'     => array('validate_info'),
+			'params' => array( 1 => 'id', 2 => 'id2'),
+			'controller' => '/Sample/controller_Sample.php',
+			'class' => 'Sample',
+			'action' => 'index',
+			'filter' => array('validation'),
+
+			'/edit' => array(
+				'action' => 'edit',	
+				'filter' => array('validation','base'),
+			),
+
+			'/add' => array(
+				'action' => 'add',	
+				'filter' => array('base'),
+			),
+
+		),
+
+		'Sample/read/lists/123/edit' => array(
+			'controller' => '/Sample/controller_Sample.php',
 		)
-	)	
-));
- */
+	);
+
+}
 ?>
