@@ -25,7 +25,12 @@ class ROUTE_CONFIG {
 
 		'Sample/read/lists/123/edit' => array(
 			'controller' => '/Sample/controller_Sample.php',
-		)
+		),
+
+                'Hoge/read/slists/123/edit' => array(
+			'controller' => '/Sample/controller_Sample.php',
+		),
+
 	);
 
 }

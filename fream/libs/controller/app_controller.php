@@ -13,7 +13,6 @@ class Controller {
 		//まだ不確定　本格的に開発する前に決定
         }
 
-
 	/*
 	 *設定作成
 	 */
@@ -61,6 +60,10 @@ class Controller {
 			}
 
 		}
+		
+		$check_file = APP.'/route/route_conf/check_route.php';
+		$check_current = serialize( $set_path );
+		file_put_contents($check_file, $check_current);
 
 		$file = APP.'/route/route_conf/serialize.php';
 		//ファイルに追加します
@@ -69,18 +72,40 @@ class Controller {
 		return file_put_contents($file, $current) ? 1 : 0;
 	}
 
+	function check_url(){
+		
+		$route_config = new ROUTE_CONFIG();
+		$now_route = serialize( $route_config->set_path );
+
+		$file = APP.'/route/route_conf/check_route.php';
+		$old_route = file_get_contents( $file );
+		
+		if ( $now_route !== $old_route || !$old_route ) {
+			return $this->create_conf();
+		}else{
+			return ;
+		}
+
+	}
+
 	/*
 	*URL作成関数
 	*/
-	function create_url($path){
+	function create_url( $path, $check_flg = 0 ){
+	
 		//若干セキュリティの意味もかねて一旦ばらす
 		$params = explode("/", $path);
 		unset($params[0]);
 
 		$path = join('/',$params);
 
-	        $this->create_conf();
 		$file = APP.'/route/route_conf/serialize.php';
+
+		if( !file_get_contents( $file ) ) {
+			$this->create_conf();
+			return $this->create_url( $path );
+		}
+
 		$set_path = unserialize( file_get_contents( $file ) );
 
 		foreach( $set_path as $key => $val ){
@@ -104,8 +129,14 @@ class Controller {
                     $use_path = $serces[0];
 		}
 
+		#エラー処理
 		if( !$use_path ){
-                   echo 'error';
+			if( $check_flg == 0 && $this->check_url() ){
+				return $this->create_url( $path, 1 );
+			}
+			else{
+			        echo 'error';
+			}
 		}
 
 		if( ereg('^'.$use_path.'$', $path, $array) ){
@@ -119,7 +150,7 @@ class Controller {
 			$controller_path = APPLICATION.$set_path[$use_path]['controller'];
 		}
 
-                $this->request = $req_params;
+                $this->request = $req_params + $_GET + $_POST;
 
 		$params = array(
 			'path'   => $controller_path,
