@@ -13,12 +13,12 @@ class ROUTE_CONFIG {
 
 			'/edit' => array(
 				'action' => 'edit',	
-				'filter' => array('validation','base'),
+				'filter' => array('validation'),
 			),
 
 			'/add' => array(
 				'action' => 'add',	
-				'filter' => array('base'),
+				'filter' => array('validation'),
 			),
 
 		),

@@ -4,169 +4,171 @@
 //require('Smarty.class.php');
 
 class Controller {
-	
-	public $request;
-	/*
-	*ｽﾏｰﾃｨｰ初期設定
-	*/	
-	function __construct() {
-		//まだ不確定　本格的に開発する前に決定
+
+    public $request;
+    /*
+     *ｽﾏｰﾃｨｰ初期設定
+     */	
+    function __construct() {
+        //まだ不確定　本格的に開発する前に決定
+    }
+
+    /*
+     *設定作成
+     */
+    function create_conf(){
+
+        $route_config = new ROUTE_CONFIG();
+
+        $set_path = $route_config->set_path;
+
+        $param_array = array('params','controller','class','action','filter');
+
+        foreach( $set_path as $key => $val ){
+
+            $main_path  = $key;
+
+            foreach( $param_array as $main_key => $main_val ){	
+                $main_params[$main_val] = $val[$main_val];
+
+                if( $val[$main_val] ) {
+                    unset($val[$main_val]);
+                }
+            }
+
+            #main のパス情報
+            $new_set_path[ $main_path ] = $main_params;
+
+            #main 以外のパス情報作成
+            foreach ( $val as $sub_path => $sub_val ){
+
+                $create_path = $main_path.$sub_path;
+
+                $new_set_path[ $create_path ] = array();
+
+                foreach ($param_array as $param_key => $param_val ){
+
+                    if ( $sub_val[$param_val] ) {
+                        $new_set_path[ $create_path ][$param_val] = $sub_val[$param_val];
+                    } 
+                    else {
+                        $new_set_path[ $create_path ][$param_val] = $main_params[$param_val];
+                    }
+
+                }
+
+            }
+
         }
 
-	/*
-	 *設定作成
-	 */
-	function create_conf(){
+        $check_file = APP.'/route/route_conf/check_route.php';
+        $check_current = serialize( $set_path );
+        file_put_contents($check_file, $check_current);
 
-		$route_config = new ROUTE_CONFIG();
+        $file = APP.'/route/route_conf/serialize.php';
+        //ファイルに追加します
+        $current = serialize( $new_set_path );
+        //結果をファイルに書き出します
+        return file_put_contents($file, $current) ? 1 : 0;
+    }
 
-		$set_path = $route_config->set_path;
+    function check_url(){
 
-		$param_array = array('params','controller','class','action','filter');
+        $route_config = new ROUTE_CONFIG();
+        $now_route = serialize( $route_config->set_path );
 
-		foreach( $set_path as $key => $val ){
+        $file = APP.'/route/route_conf/check_route.php';
+        $old_route = file_get_contents( $file );
 
-			$main_path  = $key;
+        if ( $now_route !== $old_route || !$old_route ) {
+            return $this->create_conf();
+        }else{
+            return ;
+        }
 
-		        foreach( $param_array as $main_key => $main_val ){	
-			    $main_params[$main_val] = $val[$main_val];
-			    
-			    if( $val[$main_val] ) {
-				    unset($val[$main_val]);
-			    }
-			}
+    }
 
-			#main のパス情報
-			$new_set_path[ $main_path ] = $main_params;
+    /*
+     *URL作成関数
+     */
+    function create_url( $path ){
 
-			#main 以外のパス情報作成
-			foreach ( $val as $sub_path => $sub_val ){
+        //若干セキュリティの意味もかねて一旦ばらす
+        $params = explode("/", $path);
+        unset($params[0]);
 
-				$create_path = $main_path.$sub_path;
+        $path = join('/',$params);
 
-				$new_set_path[ $create_path ] = array();
+        $file = APP.'/route/route_conf/serialize.php';
 
-				foreach ($param_array as $param_key => $param_val ){
+        $get_file = file_get_contents( $file );
 
-					if ( $sub_val[$param_val] ) {
-						$new_set_path[ $create_path ][$param_val] = $sub_val[$param_val];
-					} 
-					else {
-						$new_set_path[ $create_path ][$param_val] = $main_params[$param_val];
-					}
+        if( !$get_file ) {
+            $this->create_conf();
+            return $this->create_url( $path );
+        }
 
-				}
+        //パス設定の更新をリアルタイムに行いたいので
+        if( $this->check_url() ){
+            $get_file = file_get_contents( $file );
+        }
 
-			}
+        $set_path = unserialize( $get_file );
 
-		}
-		
-		$check_file = APP.'/route/route_conf/check_route.php';
-		$check_current = serialize( $set_path );
-		file_put_contents($check_file, $check_current);
+        foreach( $set_path as $key => $val ){
 
-		$file = APP.'/route/route_conf/serialize.php';
-		//ファイルに追加します
-		$current = serialize( $new_set_path );
-		//結果をファイルに書き出します
-		return file_put_contents($file, $current) ? 1 : 0;
-	}
+            if( ereg('^'.$key.'$', $path, $array) ){
+                $serces[] = $key; 
+            }
+        }
 
-	function check_url(){
-		
-		$route_config = new ROUTE_CONFIG();
-		$now_route = serialize( $route_config->set_path );
+        if( count( $serces ) > 1 ){
 
-		$file = APP.'/route/route_conf/check_route.php';
-		$old_route = file_get_contents( $file );
-		
-		if ( $now_route !== $old_route || !$old_route ) {
-			return $this->create_conf();
-		}else{
-			return ;
-		}
+            foreach( $serces as $serces_key => $serces_val ){
+                if($serces_val == $path){
+                    $use_path = $serces_val;
+                }else{
+                    unset( $serces[ $serces_key ] );
+                }
+            }
 
-	}
+        }else{
+            $use_path = $serces[0];
+        }
 
-	/*
-	*URL作成関数
-	*/
-	function create_url( $path, $check_flg = 0 ){
-	
-		//若干セキュリティの意味もかねて一旦ばらす
-		$params = explode("/", $path);
-		unset($params[0]);
+        #エラー処理
+        if( !$use_path ){
+                echo 'error';
+        }
 
-		$path = join('/',$params);
+        if( ereg('^'.$use_path.'$', $path, $array) ){
 
-		$file = APP.'/route/route_conf/serialize.php';
+            unset( $array[0] );
 
-		if( !file_get_contents( $file ) ) {
-			$this->create_conf();
-			return $this->create_url( $path );
-		}
+            foreach ( $array as $param_key => $param_val ){
+                $req_params[ $set_path[$use_path]['params'][$param_key] ] = $param_val;
+            }
 
-		$set_path = unserialize( file_get_contents( $file ) );
+            $controller_path = APPLICATION.$set_path[$use_path]['controller'];
+        }
 
-		foreach( $set_path as $key => $val ){
+        $this->request = $req_params + $_GET + $_POST;
 
-			if( ereg('^'.$key.'$', $path, $array) ){
-				$serces[] = $key; 
-			}
-		}
+        $params = array(
+            'path'   => $controller_path,
+            'class'  => $set_path[$use_path]['class'],
+            'method' => $set_path[$use_path]['action']
+        );
 
-		if( count( $serces ) > 1 ){
+        if( $set_path[$use_path]['filter'] ){
+            $params['filter'] = $set_path[$use_path]['filter'];
+        }else{
+            $params['filter'] = array();
+        }
 
-			foreach( $serces as $serces_key => $serces_val ){
-				if($serces_val == $path){
-					$use_path = $serces_val;
-				}else{
-					unset( $serces[ $serces_key ] );
-				}
-			}
+        return $params;
 
-		}else{
-                    $use_path = $serces[0];
-		}
-
-		#エラー処理
-		if( !$use_path ){
-			if( $check_flg == 0 && $this->check_url() ){
-				return $this->create_url( $path, 1 );
-			}
-			else{
-			        echo 'error';
-			}
-		}
-
-		if( ereg('^'.$use_path.'$', $path, $array) ){
-
-			unset( $array[0] );
-
-			foreach ( $array as $param_key => $param_val ){
-				$req_params[ $set_path[$use_path]['params'][$param_key] ] = $param_val;
-			}
-
-			$controller_path = APPLICATION.$set_path[$use_path]['controller'];
-		}
-
-                $this->request = $req_params + $_GET + $_POST;
-
-		$params = array(
-			'path'   => $controller_path,
-			'class'  => $set_path[$use_path]['class'],
-			'method' => $set_path[$use_path]['action']
-		);
-
-		if( $set_path[$use_path]['filter'] ){
-                    $params['filter'] = $set_path[$use_path]['filter'];
-		}else{
-                    $params['filter'] = array();
-		}
-
-		return $params;
-
-	}
+    }
 }
 
 $c = new Controller();
