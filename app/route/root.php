@@ -2,7 +2,7 @@
 class ROUTE_CONFIG {
 
     public $set_path = array(
-        
+
         '/' => array(
             'controller' => '/Sample/controller_Sample.php',
             'class' => 'Sample',
@@ -27,14 +27,6 @@ class ROUTE_CONFIG {
                 'filter' => array('validation'),
             ),
 
-        ),
-
-        'Sample/read/lists/123/edit' => array(
-            'controller' => '/Sample/controller_Sample.php',
-        ),
-
-        'Hoge/read/slists/123/edit' => array(
-            'controller' => '/Sample/controller_Sample.php',
         ),
 
     );
