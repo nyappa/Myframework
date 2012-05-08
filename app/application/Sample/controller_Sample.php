@@ -7,6 +7,10 @@ class Sample extends View
         $this->assign('validation','validation ugoki');
     }
 
+    function top(){
+        $this->create();
+    }
+
     function index(){
         //ﾍﾟｰｼﾞ描写処理
         $sample_text = 'A sample is started.';

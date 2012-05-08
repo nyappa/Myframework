@@ -99,6 +99,10 @@ class Controller {
 
         $path = join('/',$params);
 
+        if ( !$path ) {
+            $path = '/';
+        }
+
         $file = APP.'/route/route_conf/serialize.php';
 
         $get_file = file_get_contents( $file );
@@ -116,7 +120,6 @@ class Controller {
         $set_path = unserialize( $get_file );
 
         foreach( $set_path as $key => $val ){
-
             if( ereg('^'.$key.'$', $path, $array) ){
                 $serces[] = $key; 
             }
@@ -140,6 +143,8 @@ class Controller {
         if( !$use_path ){
                 echo 'error';
         }
+
+        $req_params = array();
 
         if( ereg('^'.$use_path.'$', $path, $array) ){
 
