@@ -7,7 +7,7 @@ class C extends View
     }
 
     function top(){
-        $this->render('Sample/template/top.tpl');
+        $this->render('top.tpl');
     }
 
     function index(){
@@ -15,23 +15,22 @@ class C extends View
         $sample_text = 'A sample is started.';
 
         $this->assign('sample_text',$sample_text);
-        $this->render('Sample/template/index.tpl');
-        #$this->create();
+        $this->render('index.tpl');
     }
 
     function lists(){
         //ﾍﾟｰｼﾞ描写テンプレート
-        #$this->create();
-        $this->render('Sample/template/lists.tpl');
+        $this->render('lists.tpl');
     }
 
     function edit(){
         //ﾍﾟｰｼﾞ描写テンプレート
-        #$this->create();
-        $this->render('Sample/template/edit.tpl');
+        $this->render('edit.tpl');
     }
 
-
+    function sample(){
+        $this->render('sample.tpl');
+    }
 
 }
 ?>

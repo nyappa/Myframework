@@ -144,6 +144,8 @@ class Controller {
                 echo 'error';
         }
 
+        define('APP_NAME',APPLICATION.'/'.$set_path[$use_path]['app']);
+
         $req_params = array();
 
         if( ereg('^'.$use_path.'$', $path, $array) ){
@@ -154,15 +156,13 @@ class Controller {
                 $req_params[ $set_path[$use_path]['params'][$param_key] ] = $param_val;
             }
 
-            #$controller_path = APPLICATION.$set_path[$use_path]['controller'];
-            $controller_path = APPLICATION.'/'.$set_path[$use_path]['app'].'/'.'C.php';
+            $controller_path = APP_NAME.'/'.'C.php';
         }
 
         $this->request = $req_params + $_GET + $_POST;
 
         $params = array(
             'path'   => $controller_path,
-            #'class'  => $set_path[$use_path]['class'],
             'class'  => 'C',
             'method' => $set_path[$use_path]['action']
         );

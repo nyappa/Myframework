@@ -8,6 +8,11 @@ class ROUTE_CONFIG {
             'action' => 'top',
         ),
 
+        'Sample' => array(
+            'app'    => 'Sample',
+            'action' => 'sample',
+        ),
+
         'Sample/([a-z]+)/lists/([0-9]+)' => array(
 
             'params' => array( 1 => 'id', 2 => 'id2'),
