@@ -1,14 +1,13 @@
 <?php
-class Sample extends View
+class C extends View
 {
 
     function validation() {
-        print 'validation!!=====';
         $this->assign('validation','validation ugoki');
     }
 
     function top(){
-        $this->create();
+        $this->render('Sample/template/top.tpl');
     }
 
     function index(){
@@ -16,17 +15,20 @@ class Sample extends View
         $sample_text = 'A sample is started.';
 
         $this->assign('sample_text',$sample_text);
-        $this->create();
+        $this->render('Sample/template/index.tpl');
+        #$this->create();
     }
 
     function lists(){
         //ﾍﾟｰｼﾞ描写テンプレート
-        $this->create();
+        #$this->create();
+        $this->render('Sample/template/lists.tpl');
     }
 
     function edit(){
         //ﾍﾟｰｼﾞ描写テンプレート
-        $this->create();
+        #$this->create();
+        $this->render('Sample/template/edit.tpl');
     }
 
 

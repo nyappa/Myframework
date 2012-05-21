@@ -18,7 +18,7 @@ define('CONTROLLER',LIB.'/controller/app_controller.php');
 define('MODEL',LIB.'/model/app_model.php');
 define('APP',MYFREAM.'/app');
 define('CONFIG',APP.'/configs');
-define('APPLICATION',APP.'/application');
+define('APPLICATION',APP.'/app');
 define('DATABASE_CONF',CONFIG.'/database.php');
 
 //ﾃﾝﾌﾟﾚｰﾄの場所
@@ -45,8 +45,11 @@ if(MOD_REWEIT_SET == 'on'){
 
 if($_SERVER['PATH_INFO']){
     $path = $_SERVER['PATH_INFO'];
-}else{
+}
+elseif( $_SERVER['ORIG_PATH_INFO'] ){
     $path = $_SERVER['ORIG_PATH_INFO'];
+}else{
+    $path = '/';
 }
 
 //role を使った形

@@ -22,7 +22,7 @@ class Controller {
 
         $set_path = $route_config->set_path;
 
-        $param_array = array('params','controller','class','action','filter');
+        $param_array = array('params','app','action','filter');
 
         foreach( $set_path as $key => $val ){
 
@@ -154,14 +154,16 @@ class Controller {
                 $req_params[ $set_path[$use_path]['params'][$param_key] ] = $param_val;
             }
 
-            $controller_path = APPLICATION.$set_path[$use_path]['controller'];
+            #$controller_path = APPLICATION.$set_path[$use_path]['controller'];
+            $controller_path = APPLICATION.'/'.$set_path[$use_path]['app'].'/'.'C.php';
         }
 
         $this->request = $req_params + $_GET + $_POST;
 
         $params = array(
             'path'   => $controller_path,
-            'class'  => $set_path[$use_path]['class'],
+            #'class'  => $set_path[$use_path]['class'],
+            'class'  => 'C',
             'method' => $set_path[$use_path]['action']
         );
 
