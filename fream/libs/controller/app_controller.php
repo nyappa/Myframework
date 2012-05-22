@@ -3,7 +3,7 @@
 //route か何かのパス定義を読み込み
 //require('Smarty.class.php');
 
-class Controller {
+class Controller extends View {
 
     public $request;
     /*

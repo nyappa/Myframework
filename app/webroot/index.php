@@ -32,9 +32,8 @@
     require_once(LIB.'/function.php');
 
     //各種ｸﾗｽ読み込み
-    require_once(CONTROLLER);
     require_once(VIEW);
-
+    require_once(CONTROLLER);
 
     //mod_rewite用　場所は跡で考える 頓挫中(js 以外ならOK)
     if(MOD_REWEIT_SET == 'on'){
@@ -55,7 +54,7 @@
     $params = $c->create_url( $path );
 
     include($params['path']);
-    $instance = new $params['class']();
+    $instance = new $params['class']( $c->request );
 
     foreach( $params['filter'] as $key => $val ){
         $instance->$val();

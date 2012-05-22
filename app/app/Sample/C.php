@@ -2,15 +2,25 @@
 class C extends View
 {
 
-    function validation() {
+    private $req;
+
+    function __construct( $reqest ) {
+        $this->req = $reqest;
+    }
+
+    function validation ()
+    {
         $this->assign('validation','validation ugoki');
     }
 
-    function top(){
+    function top ()
+    {
         $this->render('top.tpl');
     }
 
-    function index(){
+    function index ()
+    {
+        debug($this->req);
         //ﾍﾟｰｼﾞ描写処理
         $sample_text = 'A sample is started.';
 
@@ -18,17 +28,20 @@ class C extends View
         $this->render('index.tpl');
     }
 
-    function lists(){
+    function lists ()
+    {
         //ﾍﾟｰｼﾞ描写テンプレート
         $this->render('lists.tpl');
     }
 
-    function edit(){
+    function edit ()
+    {
         //ﾍﾟｰｼﾞ描写テンプレート
         $this->render('edit.tpl');
     }
 
-    function sample(){
+    function sample ()
+    {
         $this->render('sample.tpl');
     }
 
