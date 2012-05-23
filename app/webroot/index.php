@@ -15,6 +15,7 @@
     define('LIB',FREAM.'/libs');
     define('VIEW',LIB.'/view/app_view.php');
     define('CONTROLLER',LIB.'/controller/app_controller.php');
+    define('DISPATCHER',LIB.'/dispatcher/dispatcher.php');
     define('MODEL',LIB.'/model/app_model.php');
     define('APP',MYFREAM.'/app');
     define('CONFIG',APP.'/configs');
@@ -34,6 +35,7 @@
     //各種ｸﾗｽ読み込み
     require_once(VIEW);
     require_once(CONTROLLER);
+    require_once(DISPATCHER);
 
     //mod_rewite用　場所は跡で考える 頓挫中(js 以外ならOK)
     if(MOD_REWEIT_SET == 'on'){
@@ -42,23 +44,6 @@
         $view->assign("ROOT",'/index.php');
     }
 
-    if($_SERVER['PATH_INFO']){
-        $path = $_SERVER['PATH_INFO'];
-    }
-    elseif( $_SERVER['ORIG_PATH_INFO'] ){
-        $path = $_SERVER['ORIG_PATH_INFO'];
-    }else{
-        $path = '/';
-    }
-
-    $params = $c->create_url( $path );
-
-    include($params['path']);
-    $instance = new $params['class']( $c->request );
-
-    foreach( $params['filter'] as $key => $val ){
-        $instance->$val();
-    }
-
-    $instance->$params['method']();
+    $d = new Dispatcher();
+    $d->create_url();
 ?>

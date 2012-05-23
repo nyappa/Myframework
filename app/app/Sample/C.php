@@ -1,12 +1,6 @@
 <?php
-class C extends View
+class C extends Controller
 {
-
-    private $req;
-
-    function __construct( $reqest ) {
-        $this->req = $reqest;
-    }
 
     function validation ()
     {
@@ -20,7 +14,8 @@ class C extends View
 
     function index ()
     {
-        debug($this->req);
+        $params = $this->params();
+        debug( $params );
         //ﾍﾟｰｼﾞ描写処理
         $sample_text = 'A sample is started.';
 
