@@ -5,15 +5,15 @@ class ROUTE_CONFIG {
 
         '/' => array(
             'app' => 'Sample',
-            'action' => 'top',
+            'action' => 'index',
         ),
 
-        'Sample' => array(
+        'sample' => array(
             'app'    => 'Sample',
             'action' => 'sample',
         ),
 
-        'Sample/([a-z]+)/lists/([0-9]+)' => array(
+        'sample/([a-z]+)/lists/([0-9]+)' => array(
 
             'params' => array( 1 => 'id', 2 => 'id2'),
             'app' => 'Sample',

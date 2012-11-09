@@ -7,15 +7,10 @@ class C extends Controller
         $this->assign('validation','validation ugoki');
     }
 
-    function top ()
-    {
-        $this->render('top.tpl');
-    }
-
     function index ()
     {
         $params = $this->params();
-        debug( $params );
+        //debug( $params );
         //ﾍﾟｰｼﾞ描写処理
         $sample_text = 'A sample is started.';
 

@@ -1,4 +1,4 @@
-<h2>Welcome to Myfream!</h2> 
+<h2>Welcome to SandMan!</h2> 
 <p>{*$sample_text*}</p>
 <p>{*$validation*}</p>
 

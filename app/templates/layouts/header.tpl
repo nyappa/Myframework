@@ -1,7 +1,7 @@
-<h1><a href='/'>Myfream</a></h1>
+<h1><a href='/'>SandMan</a></h1>
 
 <div id='menu'>
-<a href='/index.php/Sample/lists'>[list]</a>
-<a href='/index.php/Sample/controller'>[controller]</a>
-<a href='/index.php/Sample/model'>[model]</a>
+<a href='/index.php/sample'>[sample-codes]</a>
+<a href='/index.php/sample/controller'>[controller]</a>
+<a href='/index.php/sample/model'>[model]</a>
 </div>
